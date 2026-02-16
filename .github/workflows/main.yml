@@ -1,0 +1,31 @@
+name: Deploy Portfolio Web
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+
+    steps:
+      # 1️⃣ Checkout repo lengkap
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # ambil semua history, lebih aman untuk docker cache
+
+      # 2️⃣ Hentikan & hapus container lama kalau ada
+      - name: Stop and remove old container
+        run: |
+          docker rm -f porto-web || true
+          docker network prune -f || true  # optional: bersihkan network lama
+
+      # 3️⃣ Build dan jalankan container
+      - name: Build and start containers
+        run: docker compose up -d --build
+
+      # 4️⃣ (Opsional) Check container status
+      - name: Check running containers
+        run: docker ps
