@@ -2,12 +2,9 @@ FROM node:18 AS build
 WORKDIR /app
 
 # copy package dulu
-COPY astrogon/package*.json ./
-RUN npm install 
+COPY astrogon/ ./
 
-# copy semua source
-COPY astrogon .
-
+RUN npm install
 RUN npm run build
 
 
