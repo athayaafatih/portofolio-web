@@ -18,9 +18,7 @@ jobs:
 
       # 2️⃣ Hentikan & hapus container lama kalau ada
       - name: Stop and remove old container
-        run: |
-          docker rm -f porto-web || true
-          docker network prune -f || true  # optional: bersihkan network lama
+        run: docker compose down || true
 
       # 3️⃣ Build dan jalankan container
       - name: Build and start containers
